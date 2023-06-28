@@ -15,7 +15,7 @@ FROM
     category cat
     LEFT JOIN film_category fc ON cat.category_id = fc.category_id
 GROUP BY
-    cat.name
+    cat.category_id
 ORDER BY
     film_count DESC;
 
