@@ -144,7 +144,7 @@ with DAG(
 ) as dag:
 
     task1 = LoadSalesOperator(
-        task_id='load_sales',
+        task_id='extract_data_from_api',
         method='GET',
         http_conn_id='fake_api',
         endpoint='/sales',
@@ -153,7 +153,7 @@ with DAG(
     )
 
     task2 = ConvertToAvroOperator(
-        task_id="convert_sales_to_avro"
+        task_id="convert_to_avro"
     )
 
     task1 >> task2
