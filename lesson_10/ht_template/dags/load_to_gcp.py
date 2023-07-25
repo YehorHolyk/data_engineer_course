@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime
-from load_sales_to_gcp_operator import LoadSalesFromLocalFilesystemToGCSOperator
+from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
 
 DEFAULT_ARGS = {
     'depends_on_past': False,
@@ -20,14 +20,11 @@ with DAG(
         catchup=True,
         default_args=DEFAULT_ARGS
 ) as dag:
-    load_sales_to_gcs = LoadSalesFromLocalFilesystemToGCSOperator(
+    load_sales_to_gcs = LocalFilesystemToGCSOperator(
         task_id="load_sales_from_local_to_gcs",
-        execution_date="{{ ds }}",
-        execution_date_year="{{ macros.ds_format(ds, '%Y-%m-%d', '%Y') }}",
-        execution_date_month="{{ macros.ds_format(ds, '%Y-%m-%d', '%m') }}",
-        execution_date_day="{{ macros.ds_format(ds, '%Y-%m-%d', '%d') }}",
-        src="raw/sales/",
-        dst="src1/sales/v1/",
+        src="raw/sales/{{ ds }}/sales_{{ ds }}.json",
+        dst="src1/sales/v1/year={{ execution_date.year }}/month={{ execution_date.month }}/"
+            "day={{ execution_date.day }}/sales_{{ ds }}.json",
         bucket="de07-yehor-holyk-bucket",
         gcp_conn_id="google_cloud_connection"
     )
