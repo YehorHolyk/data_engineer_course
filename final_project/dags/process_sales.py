@@ -28,8 +28,8 @@ dag = DAG(
 dag.doc_md = __doc__
 
 
-transfer_from_data_lake_to_raw = BigQueryInsertJobOperator(
-    task_id='transfer_from_data_lake_to_raw',
+transfer_sales_from_data_lake_to_bronze = BigQueryInsertJobOperator(
+    task_id='transfer_sales_from_data_lake_to_bronze',
     dag=dag,
     gcp_conn_id='gcp_conn',
     location='us-east1',
@@ -66,4 +66,4 @@ transfer_from_bronze_to_silver = BigQueryInsertJobOperator(
     }
 )
 
-transfer_from_data_lake_to_raw >> transfer_from_bronze_to_silver
+transfer_sales_from_data_lake_to_bronze >> transfer_from_bronze_to_silver

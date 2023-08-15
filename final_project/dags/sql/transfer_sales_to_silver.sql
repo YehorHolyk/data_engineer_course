@@ -24,4 +24,5 @@ SELECT
     _logical_dt,
     _job_start_dt
 FROM `{{ params.project_id }}.bronze.sales`
+WHERE DATE(_logical_dt) = "{{ ds }}"
 ;
