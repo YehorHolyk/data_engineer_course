@@ -5,7 +5,6 @@ from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobO
 
 from table_defs.user_profiles_jsonl import user_profiles_jsonl
 
-
 DEFAULT_ARGS = {
     'depends_on_past': False,
     'email_on_failure': True,
@@ -17,15 +16,13 @@ DEFAULT_ARGS = {
 dag = DAG(
     dag_id="process_user_profiles_pipeline",
     description="Ingest and process user profiles data",
-    start_date=dt.datetime.now(),
+    start_date=dt.datetime(2023, 8, 16),
     schedule_interval=None,
-    catchup=False,
     tags=['user_profiles'],
     default_args=DEFAULT_ARGS,
 )
 
 dag.doc_md = __doc__
-
 
 transfer_user_profiles_from_data_lake_to_silver = BigQueryInsertJobOperator(
     task_id='transfer_user_profiles_from_data_lake_to_silver',

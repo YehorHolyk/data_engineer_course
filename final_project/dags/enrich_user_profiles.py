@@ -3,7 +3,6 @@ import datetime as dt
 from airflow import DAG
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 
-
 DEFAULT_ARGS = {
     'depends_on_past': False,
     'email_on_failure': True,
@@ -15,15 +14,13 @@ DEFAULT_ARGS = {
 dag = DAG(
     dag_id="enrich_user_profiles_pipeline",
     description="Enrich user profiles data with customers data",
-    start_date=dt.datetime.now(),
+    start_date=dt.datetime(2023, 8, 16),
     schedule_interval=None,
-    catchup=False,
     tags=['user_profiles_enriched'],
     default_args=DEFAULT_ARGS,
 )
 
 dag.doc_md = __doc__
-
 
 enrich_user_profiles_with_customers_data = BigQueryInsertJobOperator(
     task_id='enrich_user_profiles_with_customers_data',
